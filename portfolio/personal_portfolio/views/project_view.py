@@ -1,6 +1,12 @@
 from django.http import HttpResponse
 from django.views import generic
 
-class ProjectView(generic.View):
-    def get(self, request, *args, **kwargs):
-        return HttpResponse("Hello, World!")
+from personal_portfolio.models import Project
+
+class ProjectView(generic.ListView):
+    queryset = Project.objects.filter(status=1).order_by('-created_on')
+    template_name = 'index.html'
+
+class ProjectDetail(generic.DetailView):
+    model = Project
+    template_name = 'project_detail.html'
